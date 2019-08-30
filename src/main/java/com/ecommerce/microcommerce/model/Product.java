@@ -69,6 +69,9 @@ public class Product {
         this.prixAchat = prixAchat;
     }
 
+    public  String  calculerMarge( ) {
+        return toString() + ':' +(getPrix() - getPrixAchat());
+    }
     @Override
     public String toString() {
         return "Product{" +

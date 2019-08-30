@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -63,7 +64,6 @@ public class ProductController {
 
 
 
-
     //ajouter un produit
     @PostMapping(value = "/Produits")
 
@@ -86,7 +86,7 @@ public class ProductController {
     @DeleteMapping (value = "/Produits/{id}")
     public void supprimerProduit(@PathVariable int id) {
 
-        productDao.delete(id);
+        productDao.delete(afficherUnProduit(id));
     }
 
     @PutMapping (value = "/Produits")
@@ -103,6 +103,18 @@ public class ProductController {
         return productDao.chercherUnProduitCher(400);
     }
 
+
+    //calcule la marge de chaque produit pour l'afficher
+    @ApiOperation(value = "calcule la marge de chaque produit pour l'afficher")
+    @GetMapping(value = "/AdminProduits")
+    public List<String>  calculerMargeProduit() {
+        Iterable<Product> produits = productDao.findAll();
+        List<String> produitReturned = new ArrayList<>();
+        for(Product produit : produits){
+            produitReturned.add(produit.calculerMarge());
+        }
+        return produitReturned;
+    }
 
 
 }
